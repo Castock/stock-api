@@ -25,15 +25,15 @@ public class StockEntity {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     
-    @Column(name = "stockid")
-    private int stockid;
+    @Column(name = "stockcode")
+    private String stockcode;
 
     @Column(name = "stockname", length = 30)
     private String stockname;
     
     @ManyToOne
     @Column(name = "stockidx")
-    private int stockidx;
+    private StockIndexEntity stockidx;
 }
 
 

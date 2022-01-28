@@ -14,6 +14,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,7 +29,7 @@ public class StockFlucEntity {
 
     @ManyToOne
     @Column(name = "stockid")
-    private int stockid;
+    private StockEntity stockid;
 
     @Column(name = "stockdate")
     private java.sql.Date stockdate;
@@ -48,7 +49,7 @@ public class StockFlucEntity {
     @Column(name = "fprice")
     private int fprice;
 
-    @Column(name = "frate", length = 30)
-    private String frate;
-    //private float frate;
+    @Column(name = "frate")
+    private float frate;
+    //private String frate;
 }
