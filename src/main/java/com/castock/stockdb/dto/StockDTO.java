@@ -20,7 +20,7 @@ public class StockDTO {
     private int id;
     private String stockcode;
     private String stockname;
-    private StockIndexEntity stockidx;
+    private int stockidx;
 
     public StockDTO(final StockEntity entity){
         this.id = entity.getId();

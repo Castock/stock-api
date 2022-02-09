@@ -13,6 +13,4 @@ public interface StockRepository extends JpaRepository<StockEntity, String>{
 
     @Query(value = "SELECT * FROM stock s WHERE s.stockname LIKE '%?1%'", nativeQuery = true)
 	List<StockEntity> findByStockname(String stockname);
-
-	List<StockFlucEntity> findByStockid(int stockid);
 }

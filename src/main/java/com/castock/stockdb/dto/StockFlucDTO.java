@@ -19,7 +19,7 @@ import com.castock.stockdb.model.StockFlucEntity;
 public class StockFlucDTO {
 
     private int id;
-    private StockEntity stockid;
+    private int stockid;
     private java.sql.Date stockdate;
     private int highprice;
     private int lowprice;

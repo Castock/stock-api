@@ -21,6 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 
 @RestController
 @RequestMapping("castock")
@@ -29,26 +33,55 @@ public class StockController {
 	@Autowired
 	private StockService stockService;
 
-	@PostMapping("/insert")
-	public ResponseEntity<?> insertStock(@RequestBody StockDTO dto, RequestBody StockFlucDTO flucs) {
-		try {
-			StockEntity entity = StockDTO.toEntity(dto);
-			List<StockEntity> stock = stockService.insertStock(entity);
-			List<StockDTO> dtos = stock.stream().map(StockDTO::new).collect(Collectors.toList());
-			ResponseDTO<StockDTO> response = ResponseDTO.<StockDTO>builder().data(dtos).build();
+	@GetMapping("/insert")
+	public ResponseEntity<?> insertStock() {
+		
+		JSONParser parser = new JSONParser();
+		String jsonStr = stockService.reqCrawling();
+		//return "no1" + jsonStr;
+		
+		try{
+			Object obj = parser.parse( jsonStr );
+			JSONObject jsonObj = (JSONObject) obj;
+			JSONArray dataArr = (JSONArray) jsonObj.get("data");
+	
+			for (int i = 0; i < dataArr.size(); i++){
+				JSONObject sep = (JSONObject) dataArr.get(i);
+				//{"id":439,"stockcode":"174900","stockdate":"2022-01-29","stockname":"앱클론","stockidx":1,"highprice":14100,"lowprice":12850,"startprice":13150,"endprice":13700,"fprice":750,"frate":5.79}
+				StockEntity entity = new StockEntity();
+	
+				entity.setStockcode((String)sep.get("stockcode"));
+				entity.setStockname((String)sep.get("stockname"));
+				entity.setStockidx((int)(long)(sep.get("stockidx")));
+				//logger.warn(entity.toString());
 
-            StockFlucEntity stockFluc= StockFlucDTO.toEntity(flucs);
-			List<StockEntity> fluc = stockService.insertStockFluc(stockfluc);
-			List<StockDTO> flucDTOs = fluc.stream().map(StockFlucDTO::new).collect(Collectors.toList());
+				stockService.insertStock(entity);
+			}
+					
+			ResponseDTO<StockDTO> response = ResponseDTO.<StockDTO>builder().build();
 
 			return ResponseEntity.ok().body(response);
+			
+		}catch(Exception e){
 
-		} catch (Exception e) {
-
-			String error = e.getMessage();
-			ResponseDTO<StockDTO> response = ResponseDTO.<StockDTO>builder().error(error).build();
+			ResponseDTO<StockDTO> response = ResponseDTO.<StockDTO>builder().error(e.getMessage()).build();
 			return ResponseEntity.badRequest().body(response);
 		}
+		
+
+
+			//StockFlucEntity stockFluc= StockFlucDTO.toEntity(flucs);
+			//stockService.insertStockFluc(stockFluc);
+		
+		/*
+		List<StockEntity> stock = 
+		List<StockDTO> dtos = stock.stream().map(StockDTO::new).collect(Collectors.toList());
+		
+
+		
+		List<StockFlucEntity> fluc = 
+		//List<StockFlucDTO> flucDTOs = fluc.stream().map(StockFlucDTO::new).collect(Collectors.toList());*/
+
 	}
 
 	@GetMapping("/search")

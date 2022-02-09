@@ -20,16 +20,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name = "stock")
+@Table(name = "stockfluctuation")
 public class StockFlucEntity {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
     @Column(name = "stockid")
-    private StockEntity stockid;
+    private int stockid;
 
     @Column(name = "stockdate")
     private java.sql.Date stockdate;

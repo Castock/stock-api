@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface StockFlucRepository extends JpaRepository<StockFlucEntity, String>{
 
-	List<StockFlucEntity> findByStockid(StockEntity stockEntity);
+	List<StockFlucEntity> findByStockid(int stockid);
 }

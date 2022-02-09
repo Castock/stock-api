@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name = "stockfluctuation")
+@Table(name = "stock")
 public class StockEntity {
 
     @Id
@@ -28,12 +28,11 @@ public class StockEntity {
     @Column(name = "stockcode")
     private String stockcode;
 
-    @Column(name = "stockname", length = 30)
+    @Column(name = "stockname", length = 64)
     private String stockname;
-    
-    @ManyToOne
+
     @Column(name = "stockidx")
-    private StockIndexEntity stockidx;
+    private int stockidx;
 }
 
 
